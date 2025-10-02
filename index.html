@@ -3,63 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Couple's Connect - A Game for Partners</title>
+    <title>Couple's Connect Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-        }
-        /* Simple transition for screens */
-        .screen {
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        .screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.95);
-        }
-        /* Card flip animation */
-        /* REMOVED - All flipping CSS is gone */
         .card-content {
             transition: opacity 0.4s ease-in-out;
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-rose-100 via-purple-100 to-rose-200 flex items-center justify-center min-h-screen p-4 overflow-hidden">
-
-    <div id="app-container" class="w-full max-w-md relative" style="height: 600px;">
-
+    <div class="w-full max-w-md mx-auto">
         <!-- Screen 1: Mode Selection -->
-        <div id="mode-screen" class="screen flex flex-col items-center justify-center text-center p-6">
-            <h1 class="text-5xl font-bold text-rose-800">Couple's Connect</h1>
-            <p class="text-gray-600 mt-4 mb-10">A fun and flirty game to bring you closer together.</p>
-            <div class="w-full">
-                <button data-mode="in-person" class="mode-btn w-full bg-rose-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-rose-600 focus:outline-none focus:ring-4 focus:ring-rose-300 transform hover:-translate-y-1 transition-all duration-300 mb-4">
-                    We're Together
-                </button>
-                <button data-mode="long-distance" class="mode-btn w-full bg-purple-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-300 transform hover:-translate-y-1 transition-all duration-300">
-                    We're Long Distance
-                </button>
+        <div id="mode-screen" class="screen">
+            <div class="w-full flex justify-end mb-4">
+                <a href="room-scene.html" class="text-white bg-red-600 hover:bg-red-700 font-semibold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105">
+                    Room Secrets
+                </a>
+            </div>
+            <div class="text-center p-8 bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl">
+                <h1 class="text-5xl font-extrabold text-gray-800 mb-2">Couple's Connect</h1>
+                <p class="text-gray-600 mb-10 text-lg">Choose how you're playing today.</p>
+                <div class="space-y-4">
+                    <button data-mode="in-person" class="mode-btn w-full bg-rose-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-rose-600 transform hover:-translate-y-1 transition-all duration-300">
+                        We're Together
+                    </button>
+                    <button data-mode="long-distance" class="mode-btn w-full bg-purple-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-purple-600 transform hover:-translate-y-1 transition-all duration-300">
+                        Long Distance
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Screen 2: Game Screen -->
-        <div id="game-screen" class="screen hidden flex flex-col items-center justify-between p-4">
-            <div class="w-full flex justify-between items-center">
-                <button id="back-btn" class="text-rose-500 font-semibold hover:text-rose-700 transition-colors">&larr; Change Mode</button>
-                <a href="room-scene.html" class="text-white bg-red-600 hover:bg-red-700 font-semibold py-2 px-4 rounded-lg shadow-md transition-all">
-                    Room Secrets
-                </a>
-                <h2 id="turn-indicator" class="text-2xl font-bold text-gray-700">Player 1's Turn</h2>
+        <div id="game-screen" class="screen hidden flex flex-col items-center justify-between p-4" style="height: 90vh;">
+            <div class="w-full grid grid-cols-3 items-center">
+                <button id="back-btn" class="text-rose-500 font-semibold hover:text-rose-700 transition-colors justify-self-start">&larr; Change Mode</button>
+                <h2 id="turn-indicator" class="text-2xl font-bold text-gray-700 justify-self-center">Player 1's Turn</h2>
+                <div class="justify-self-end"></div> <!-- Empty div for spacing -->
             </div>
 
             <!-- The Card -->
@@ -83,10 +69,17 @@
                 Next Turn
             </button>
         </div>
-
     </div>
 
     <script>
+        // --- Game State ---
+        const state = {
+            mode: null, // 'in-person' or 'long-distance'
+            currentPlayer: 1,
+            usedTruths: [],
+            usedDares: [],
+        };
+
         // --- DOM Elements ---
         const modeScreen = document.getElementById('mode-screen');
         const gameScreen = document.getElementById('game-screen');
@@ -96,14 +89,6 @@
         const resultView = document.getElementById('result-view');
         const cardText = document.getElementById('card-text');
         const nextTurnBtn = document.getElementById('next-turn-btn');
-
-        // --- Game State ---
-        let state = {
-            mode: null, // 'in-person' or 'long-distance'
-            currentPlayer: 1,
-            usedTruths: [],
-            usedDares: [],
-        };
 
         // --- Data ---
         const cards = {
@@ -234,12 +219,19 @@
         };
 
         // --- Functions ---
-        
-        function switchScreen(hide, show) {
-            hide.classList.add('hidden');
-            setTimeout(() => show.classList.remove('hidden'), 50);
+        function startGame(selectedMode) {
+            state.mode = selectedMode;
+            modeScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            resetGame();
         }
 
+        function backToMenu() {
+            modeScreen.classList.remove('hidden');
+            gameScreen.classList.add('hidden');
+            state.mode = null;
+        }
+        
         function resetGame() {
             state.currentPlayer = 1;
             state.usedTruths = [];
@@ -254,20 +246,10 @@
         }
 
         function getRandomCard(type) {
-            const availableCards = cards[type]
-                .filter(card => card.modes.includes(state.mode))
-                .filter(card => !(state[type === 'truths' ? 'usedTruths' : 'usedDares'].includes(card.text)));
-            
-            if (availableCards.length === 0) {
-                // Reset used cards if all have been seen
-                state[type === 'truths' ? 'usedTruths' : 'usedDares'] = [];
-                return getRandomCard(type); // Try again
-            }
-
+            const availableCards = cards[type].filter(card => card.modes.includes(state.mode));
+            // For now, we'll just pick randomly. A more robust version would avoid repeats.
             const randomIndex = Math.floor(Math.random() * availableCards.length);
-            const card = availableCards[randomIndex];
-            state[type === 'truths' ? 'usedTruths' : 'usedDares'].push(card.text);
-            return card;
+            return availableCards[randomIndex];
         }
 
         function handleCardChoice(type) {
@@ -294,15 +276,11 @@
         // --- Event Listeners ---
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                state.mode = e.target.dataset.mode;
-                resetGame();
-                switchScreen(modeScreen, gameScreen);
+                startGame(e.target.dataset.mode);
             });
         });
 
-        document.getElementById('back-btn').addEventListener('click', () => {
-            switchScreen(gameScreen, modeScreen);
-        });
+        document.getElementById('back-btn').addEventListener('click', backToMenu);
 
         document.getElementById('truth-btn').addEventListener('click', () => handleCardChoice('truths'));
         document.getElementById('dare-btn').addEventListener('click', () => handleCardChoice('dares'));
@@ -330,3 +308,5 @@
     </script>
 </body>
 </html>
+
+
