@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spicy Role Plays</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111;
+        }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+        }
+        .glow-shadow {
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.4), 0 0 30px rgba(20, 184, 166, 0.3);
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(45, 212, 191, 0.6);
+        }
+        .content-display {
+            transition: opacity 0.5s ease-in-out;
+            min-height: 200px; /* Ensure it doesn't collapse */
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        /* Styling for the script format */
+        #roleplay-text pre {
+            white-space: pre-wrap; /* Allows text to wrap */
+            word-wrap: break-word; /* Breaks long words */
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-teal-900 to-black text-white min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-3xl text-center">
+        <h1 class="text-6xl font-bold text-teal-400 text-glow mb-4">Spicy Role Plays</h1>
+        <p class="text-teal-200 mb-10">Choose a story, become your characters, and let the fantasy unfold.</p>
+
+        <!-- Main content area -->
+        <div class="space-y-8">
+            <div id="roleplay-display" class="content-display w-full bg-black/30 backdrop-blur-sm border border-teal-500/50 rounded-2xl p-6 md:p-8 mb-4 flex text-left">
+                <div id="roleplay-text" class="text-xl text-teal-100 w-full">
+                    <strong class='text-2xl block mb-4 text-teal-300'>Welcome...</strong>
+                    <span class='text-lg'>Click the button below to generate a new fantasy script to act out with your partner.</span>
+                </div>
+            </div>
+            <button id="roleplay-btn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg glow-shadow transform hover:scale-105 transition-all duration-300">
+                New Scenario
+            </button>
+        </div>
+
+        <a href="room-scene.html" class="mt-16 inline-block text-gray-400 hover:text-white transition-colors">&larr; Back to Room Secrets</a>
+    </div>
+
+    <script>
+        const rolePlays = [
+            { 
+                title: "🔥 Boss & Assistant After Hours", 
+                script: `Setting: Bedroom, couch, or desk. One of you is the Boss, the other the Assistant.
+
+Boss (sitting at desk/bed):
+"Close the door. We need to talk about your performance today."
+
+Assistant (nervous, playful):
+"I… I didn’t think I did that badly."
+
+Boss (stands, circling slowly):
+"You were careless. Sloppy. That’s not how my assistant should behave. Do you know what happens when you disobey me?"
+
+Assistant (biting lip):
+"No… what happens?"
+
+Boss (whispers in their ear):
+"You get punished. Now, strip. Slowly. I want to see every inch of you."
+(Assistant begins taking off clothes one piece at a time, teasing, until completely naked.)
+
+Boss (smirks, still clothed):
+"Good. Look at you, standing naked for me like a bad little assistant. Sit on the desk. Don’t touch yourself unless I tell you to."
+(Assistant sits, legs slightly apart, visibly aroused but holding back.)
+
+Assistant:
+"Please… this isn’t fair."
+
+Boss (runs fingers over their thighs, not quite touching where they want):
+"Fair? No. But you like it, don’t you? Being completely exposed in front of me."
+
+Assistant (soft moan):
+"Yes… I do."
+
+Boss (unzips pants, pulls Assistant onto knees):
+"Show me how badly you want to keep this job. Put that mouth to work."
+(Assistant takes Boss into their mouth. Boss grips their hair, guiding them.)
+
+Boss (breathy, dominant):
+"That’s it… look at me while you do it. Don’t stop until I tell you."
+(Boss finally strips and bends Assistant over desk/bed.)
+
+Boss (teasing with tip, sliding against them):
+"You’ve been begging for this all night. Say it… say you want me."
+
+Assistant (desperate):
+"I want you inside me. Please… fuck me."
+
+Boss (thrusting in, slow at first):
+"Good girl/boy. You’re mine now."
+(Intercourse begins, building from slow grinding into rougher thrusts.)
+
+Boss (panting, commanding):
+"Moan for me. Louder. I want everyone to hear who you belong to."
+
+Assistant (loud moans, gasping):
+"I’m yours… oh my god, yes… I’m yours."
+(Boss grabs their throat lightly, or pins hands down.)
+
+Boss:
+"Don’t you dare cum until I say so."
+
+Assistant (whimpering, barely holding back):
+"I… I can’t… I need it."
+
+Boss (thrusting harder):
+"Beg for it. Beg me to let you finish."
+
+Assistant (moaning, pleading):
+"Please, please let me cum… I can’t take it anymore!"
+
+Boss (growling in their ear, finally allowing):
+"Cum for me. Right now. Make a mess for me."
+(Both climax intensely.)
+
+Aftercare (Boss strokes Assistant’s hair):
+"Meeting adjourned… but tomorrow, you’d better be ready for another session."`
+            },
+            { 
+                title: "📚 Professor's Extra Credit", 
+                script: `Setting: A university professor's office, late at night.
+
+Student (knocks on the door, looking worried):
+"Professor? You said you wanted to see me about my grade?"
+
+Professor (looks up from papers, stern):
+"Indeed. Your latest paper was… subpar. Frankly, at this rate, you're going to fail my class."
+
+Student (steps inside, closes door):
+"But I studied so hard! Please, isn't there anything I can do? I'll do anything for some extra credit."
+
+Professor (leans back, eyeing them up and down):
+"'Anything?' That's a very bold offer. What exactly did you have in mind?"
+
+Student (nervously):
+"I… I'm a very 'hands-on' learner."
+
+Professor (smirks):
+"Is that so? Well, perhaps we can arrange a practical exam. Take off your jacket. Let's see how well you follow instructions."
+(Student complies, revealing their shirt.)
+
+Professor (gets up, walks over):
+"I said take it off. Not halfway. All the way. And the shirt, too. I want to see your dedication."
+(Student slowly strips to their underwear, shivering slightly.)
+
+Professor (circles them):
+"Better. Now, get on your knees. A good student knows their place."
+(Student kneels in front of the professor's chair.)
+
+Professor (sits, unbuckles belt):
+"You want to pass this class? Your final exam starts now. Open your mouth."
+(Student takes professor into their mouth, starting slow and tentative.)
+
+Professor (grips their hair, guiding):
+"Deeper. Show me you're committed to your education. Use your tongue. Earn that A."
+(The pace quickens. The professor groans, leaning back.)
+
+Professor (panting):
+"Enough. On my desk. Now. Face down."
+(Student scrambles onto the desk, presenting themselves.)
+
+Professor (pulls down their underwear, exposing them):
+"Let's see if you can handle the practical application of this lesson."
+(Professor enters them from behind, no warning.)
+
+Student (gasps, arching their back):
+"Oh, professor!"
+
+Professor (thrusts deeply, whispering):
+"That's 'Sir' to you. Now, tell me, what's the first rule of my classroom?"
+
+Student (moaning with each thrust):
+"To… to always… obey you, Sir!"
+
+Professor:
+"Exactly. And you've been a very disobedient student. You need to be punished."
+(Intercourse becomes rougher, faster. The professor spanks them.)
+
+Professor (commanding):
+"Count for me. Every time I hit you."
+
+Student (crying out):
+"One… oh! Two… please, Sir!"
+
+Professor (nearing climax):
+"I'm going to finish inside you. You're going to take every drop. Understand?"
+
+Student (sobbing, nodding):
+"Yes, Sir! Please, give it to me!"
+(Both climax. The professor collapses onto them.)
+
+Aftercare (Professor helps them up, kisses their neck):
+"Congratulations. You passed."`
+            },
+            { 
+                title: "🧛 The Vampire's First Taste", 
+                script: `Setting: A lavish, gothic bedroom in a vampire's castle.
+
+Mortal (waking up, confused):
+"Where… where am I? What is this place?"
+
+Vampire (sitting in a chair in the shadows, voice like silk):
+"You're safe. I found you lost in the woods and brought you here. My home."
+
+Mortal (scared but intrigued):
+"You saved me? Who are you?"
+
+Vampire (steps into the moonlight, revealing their pale skin and sharp eyes):
+"I am the master of this castle. And you… you are my guest. I must admit, I was drawn to you. Your scent is... intoxicating."
+
+Mortal (blushing):
+"My scent?"
+
+Vampire (now standing by the bed, tracing their finger along the Mortal's neck):
+"Yes. Like a rare flower. I've waited centuries for a scent like yours. It makes me… hungry."
+(Vampire's fangs elongate slightly.)
+
+Mortal (breathing heavily, a mix of fear and arousal):
+"What are you going to do to me?"
+
+Vampire (leans in, whispering against their neck):
+"I'm going to taste you. And once I do, you will be mine. Forever. Are you ready to give yourself to me?"
+
+Mortal (nods, tilting their head to expose their neck):
+"Yes..."
+
+Vampire (licks a stripe up their neck, making them shudder):
+"First, let me feel your warmth. Take off your clothes. I want to see the body that holds such sweet blood."
+(Mortal strips naked, mesmerized by the Vampire's command.)
+
+Vampire (also disrobing, revealing a perfect, cold body):
+"Beautiful. Now, lie back. Let me show you what eternity feels like."
+(Vampire kisses them deeply, a cold kiss that sends shivers down their spine, before moving down their body, licking and biting softly.)
+
+Mortal (moaning):
+"Please… I need more."
+
+Vampire (positions themselves between their legs):
+"You will have everything. I will fill you, and then I will claim you."
+(Vampire enters them slowly, the cold sensation shocking and intensely pleasurable.)
+
+Vampire (thrusting with unnatural stamina):
+"Feel that? That is my power inside you. With every thrust, you become more mine."
+
+Mortal (wrapping legs around them):
+"I feel it… I want it. I want to be yours!"
+
+Vampire (nearing climax, leaning down to their neck):
+"As I cum inside you, I will take my first drink. Our bodies will be bound as one."
+
+Mortal (desperate):
+"Do it! Claim me now!"
+(As they both climax, the Vampire sinks their fangs into the Mortal's neck. Pleasure and pain mix into an overwhelming ecstasy.)
+
+Aftercare (Vampire licks the wound clean, holding the Mortal close):
+"It is done. Welcome to eternity, my love. Your first night as mine has just begun."`
+            }
+          {
+    title: "🔥 Stranger at the Bar",
+    script: `Setting: Living room or bedroom. One of you plays a mysterious stranger, the other is a curious person approached at a bar.
+
+Stranger (leaning close, low voice):
+"Can I buy you a drink, or are you already taken?"
+
+Curious Person (playful, a little nervous):
+"Maybe… maybe I’m not. What’s in it for me?"
+
+Stranger (smirking):
+"How about a private tour back at my place? I promise you won’t regret it."
+(Curious Person nods, visibly excited.)
+
+Stranger (once in private, standing close):
+"Take off your dress/shirt slowly. I want to see what I’ve been imagining all night."
+(Curious Person strips teasingly, standing nude.)
+
+Stranger (running hands over body, whispering):
+"God… you’re perfect. Get on the couch and spread your legs for me."
+
+Curious Person (breathless):
+"Yes… I want you."
+
+Stranger (pulling them closer, kissing deeply):
+"Then show me how much you want it."
+(Both start kissing, Stranger guides Curious Person down to knees for oral.)
+
+Stranger (dominant, controlling):
+"Look at me while you do it… don’t stop until I say."
+
+Curious Person (moaning, obedient):
+"Please… I can’t wait any longer."
+
+Stranger (finally mounting, slow at first):
+"Now you’re mine."
+(Intercourse begins, escalating into rough thrusts, with dirty talk.)
+
+Stranger (panting):
+"Say it. Tell me you belong to me."
+
+Curious Person (loud moans, gasping):
+"I’m yours… please, don’t stop!"
+
+Aftercare (holding each other, smiling):
+"Maybe next time we meet, we’ll pick up where we left off."`
+  },
+  {
+    title: "🔥 Teacher & Naughty Student",
+    script: `Setting: Bedroom as classroom. One of you is the strict teacher, the other is a mischievous student.
+
+Teacher (arms crossed, stern):
+"Sit down. I’ve heard you’ve been misbehaving in class."
+
+Student (playful, smirking):
+"I didn’t mean to… maybe I just need extra help."
+
+Teacher (leaning close, whispering):
+"Extra help, huh? Strip. Let me see if you deserve a passing grade."
+(Student slowly removes clothes, teasing, until fully naked.)
+
+Teacher (circling, touching but not yet full):
+"You’re distracting me… and I like it. Kneel on the desk."
+
+Student (nervous, moaning softly):
+"Yes… teach… I’ll behave."
+
+Teacher (grabbing Student by hair, commanding):
+"Show me how much you want this lesson."
+(Student performs oral as Teacher guides.)
+
+Teacher (breathy, controlling):
+"Don’t look away. Do exactly as I say."
+(Teacher then mounts Student for intercourse, slow at first.)
+
+Teacher (thrusting, whispering):
+"Tell me… am I the only one you want?"
+
+Student (panting, arching back):
+"Yes… only you… please… don’t stop!"
+
+Teacher (grabbing wrists, spanking):
+"Beg for it. Beg me to let you finish."
+
+Student (moaning loudly):
+"Please… I need it… let me cum!"
+
+Teacher (finally allowing climax):
+"Good. Now you’ve earned your grade."
+(Aftercare: cuddling and gentle kisses while whispering praises.)`
+  },
+  {
+    title: "🔥 Robber & Captive Desire",
+    script: `Setting: Bedroom or living room. One plays a daring robber, the other the helpless but excited captive.
+
+Robber (mask or scarf, low voice):
+"Don’t move… unless you want to get hurt."
+
+Captive (breathless, playful):
+"Wait… I think I like it when you’re rough."
+
+Robber (grinning, circling):
+"Is that so? Then strip. Now."
+(Captive slowly undresses, revealing naked body.)
+
+Robber (pressing against them, dominant):
+"Good… hands where I can see them. I want to feel every inch of you."
+
+Captive (biting lip, moaning):
+"Yes… do whatever you want."
+
+Robber (guiding to knees for oral):
+"Show me how much you crave me. Beg for it."
+
+Captive (obedient, gasping):
+"Please… I need you… I’m yours."
+
+Robber (finally mounting, intercourse slow at first):
+"You’re mine tonight."
+(Thrusting builds, mixing roughness and dirty talk.)
+
+Robber (panting, gripping waist):
+"Say it. Tell me who you belong to."
+
+Captive (moaning loudly, clinging):
+"I’m yours… only yours!"
+
+Aftercare (holding, soothing):
+"Next time, maybe you’ll try to escape… but I’ll always catch you."`
+  }
+      {
+    title: "🔥 Celebrity Crush Fantasy",
+    script: `Setting: Bedroom. One of you plays your celebrity crush visiting your home, the other is the starstruck fan.
+
+Celebrity (leaning against the wall, smirking):
+"Wow… I never thought I’d actually meet you here. You’re even more stunning up close."
+
+Fan (blushing, nervous):
+"I… I can’t believe it’s really you."
+
+Celebrity (stepping closer, whispering):
+"Don’t just stand there… show me how much you’ve wanted this."
+(Fan slowly strips, teasingly revealing their body.)
+
+Celebrity (running hands over them, playful):
+"Perfect… now get on the bed, I want to see every inch."
+
+Fan (panting, obedient):
+"Yes… I’ve dreamed about this."
+
+Celebrity (mounting, kissing deeply):
+"You’ve imagined this for so long, haven’t you?"
+
+Fan (moaning, arching back):
+"Yes… I need you… please."
+
+Celebrity (thrusting, whispering dirty talk):
+"Say it… say you’re mine tonight."
+
+Fan (loud moans, gasping):
+"I’m yours… completely yours!"
+
+Aftercare (holding, gentle kisses):
+"Don’t worry… next time, I’ll make it even more unforgettable."`
+  },
+  {
+    title: "🔥 Naughty Foot Worship",
+    script: `Setting: Living room or bedroom. One plays a dominant partner, the other indulges in a foot fetish scenario.
+
+Dominant (sitting comfortably, bare feet exposed):
+"You’ve been craving this all day, haven’t you? Show me how much you want it."
+
+Submissive (kneeling, eager):
+"Yes… I’ve been thinking about it nonstop."
+
+Dominant (smirking):
+"Kiss them… slowly. Don’t stop until I say so."
+(Submissive begins kissing and licking Dominant’s feet, tracing every curve and toe.)
+
+Dominant (stroking hair, commanding):
+"Now, use your mouth properly. Make me feel worshiped."
+
+Submissive (moaning softly):
+"Yes… I’ll do anything for you."
+
+Dominant (leaning back, enjoying):
+"Good… now, strip completely and lie down. I want to taste more than your lips."
+(Submissive obeys, fully naked.)
+
+Dominant (mounting, intertwining foot play with intercourse):
+"Tell me how much you love serving me."
+(Submissive moans, fully immersed.)
+
+Dominant (whispering, thrusting):
+"You belong to me tonight. Only me."
+
+Submissive (panting, moaning loudly):
+"Yes… I’m yours… please don’t stop!"
+
+Aftercare (stroking hair and feet):
+"That’s it… you pleased me perfectly tonight."`
+  },
+  {
+    title: "🔥 Police Officer Interrogation",
+    script: `Setting: Bedroom or office. One plays a strict officer, the other is the naughty suspect.
+
+Officer (standing, stern):
+"Hands where I can see them. You’ve been very naughty."
+
+Suspect (playful, nervous):
+"Maybe I need a different kind of interrogation?"
+
+Officer (leaning in, whispering):
+"Strip. Let me see if you’re hiding anything… from me."
+(Suspect removes clothes slowly, teasing.)
+
+Officer (circling, inspecting):
+"Good… now, sit on the desk. You’re under my control."
+
+Suspect (breathless):
+"Yes… I’ll do anything you want."
+
+Officer (grabbing hair, commanding):
+"Show me how guilty you feel."
+(Suspect performs oral as Officer guides, building tension.)
+
+Officer (mounting for intercourse):
+"Confess… you’ve been thinking about me all day, haven’t you?"
+
+Suspect (moaning loudly):
+"Yes… I can’t stop… I’m yours."
+
+Officer (thrusting, whispering):
+"Beg for release. Say it properly."
+
+Suspect (pleading, gasping):
+"Please… let me cum… I’m all yours!"
+
+Aftercare (holding, gentle kisses):
+"Consider this your warning… next time, you won’t be so lucky."`
+  }
+      {
+  title: "🔥 Harry & Hermione: Forbidden Hogwarts Fantasy",
+  script: `Setting: Hogwarts, after hours in the library. Harry and Hermione are alone, the castle quiet.
+
+Harry (whispering, nervous but eager):
+"Hermione… we shouldn’t be here… what if someone finds us?"
+
+Hermione (biting lip, teasing):
+"I don’t care. I’ve been thinking about this for weeks… about you."
+
+Harry (stepping closer, brushing her hair back):
+"Thinking about… me? Like… this?" 
+
+Hermione (soft moan):
+"Yes… like this. I can’t stop imagining it."
+(Hermione slowly unbuttons her robe, letting it fall, revealing her body.)
+
+Harry (eyes widening, husky):
+"Hermione… you’re… incredible."
+(He slips out of his clothes as well, both now naked.)
+
+Hermione (pressing against him, hands on chest):
+"I want you… here… now."
+(Harry kisses her deeply, hands exploring.)
+
+Harry (panting, dominant but gentle):
+"Tell me… do you want this… do you want me?"
+
+Hermione (moaning, desperate):
+"Yes… I want you, Harry… please."
+
+(Harry guides her to the desk, bending her over carefully, teasing before intercourse begins.)
+
+Harry (thrusting slowly at first):
+"You’re mine tonight. No one else… just me."
+
+Hermione (arching back, moaning loudly):
+"Yes… I’m yours… oh god, yes…"
+
+(Harry picks her up onto the desk, both moving together, building intensity, whispering dirty lines and Hogwarts-themed teasing.)
+
+Harry (gripping her waist, whispering in her ear):
+"Say my name… say you belong to me, Hermione."
+
+Hermione (panting, moaning):
+"Harry… I’m yours… only yours."
+
+(Both reach climax, breathing heavily, holding each other tightly.)
+
+Aftercare (lying together, gentle kisses and soft words):
+"I… I’ve never wanted anyone like that before," Harry murmurs.
+
+Hermione (smiling, resting her head on his chest):
+"Me neither… but I’m glad it’s you."`
+}
+      {
+  title: "🔥 Boss & Junior: Secret Affair",
+  script: `Setting: The office after hours. Both are married to other people, but the tension between them has been unbearable.  
+
+Boss (leaning against the desk, smirking):
+"Stay a little later tonight… I need to talk to you about your performance… privately."
+
+Junior (nervous, playful):
+"Uh… sure… I didn’t think you’d call me in this late."
+
+Boss (circling him slowly, voice low and sultry):
+"Call you in? Or… call you out? I’ve been thinking about you all week… imagining you like this."
+
+Junior (breathless, trying to hide arousal):
+"Thinking about me? I… I can’t help it either."
+
+Boss (whispering in his ear, brushing her hand over his chest):
+"You want this, don’t you? You want me… just as much as I want you."
+
+Junior (soft moan):
+"Yes… I do. God, I’ve been thinking about it nonstop."
+
+Boss (pushing him lightly against the wall):
+"Then prove it. Strip. Slowly. I want to see every inch of you."
+(Junior begins taking off his clothes, trembling slightly, until fully naked.)
+
+Boss (smirking, slipping off her blouse, bra following):
+"Good… now kneel. Show me how badly you want to be mine, even if we shouldn’t be doing this."
+
+Junior (kneeling, hands slightly shaking, lips parted):
+"Yes… I want you… I need you."
+
+Boss (guiding him, whispering in his ear):
+"Use your mouth… I want to feel you worship me."
+(Junior begins, Boss moans softly, hands in his hair.)
+
+Boss (mounting him slowly, teasing):
+"Now… I’ll make sure you’re mine, even if it’s just for tonight."
+(Intercourse begins, slow and teasing at first, escalating into more intense thrusts.)
+
+Boss (whispering dominantly):
+"Moan my name… say it out loud… tell me you’re mine, right here, right now."
+
+Junior (panting, gasping, desperate):
+"I’m yours… only yours… god, yes!"
+
+Boss (grabbing his shoulders, moving with intensity):
+"Don’t forget… we can’t let anyone know. But for now… just this… just us."
+
+(Both climax together, holding each other tightly, gasping.)
+
+Aftercare (Boss strokes his hair, whispers):
+"Tonight, it’s our secret… but I’ll be thinking about you all week."  
+
+Junior (resting against her, still breathing heavily):
+"Me too… I can’t wait for the next time."`
+}
+      {
+  title: "🔥 Hotel Affair: Boss & Junior",
+  script: `Setting: A luxurious hotel room. Both are married to other people, meeting in secret to indulge their forbidden desires.  
+
+Boss (leaning against the bed, smirking):
+"I hope you didn’t think I was joking when I said I wanted a private meeting tonight."
+
+Junior (breathless, nervous but excited):
+"No… I didn’t… I’ve been thinking about this all day."
+
+Boss (circling him slowly, brushing her hand over his chest):
+"Thinking about this… about me, naked, here in a hotel room… you’re imagining it, aren’t you?"
+
+Junior (swallowing hard, soft moan):
+"Yes… I can’t stop thinking about you."
+
+Boss (stepping close, whispering in his ear):
+"Good… then prove it. Strip. Slowly. I want to see everything."
+
+(Junior begins taking off his clothes, trembling slightly, until completely naked.)
+
+Boss (smirking, removing her blouse and bra, letting her body reveal):
+"Perfect… now kneel. Show me how badly you want me tonight, even if we shouldn’t."
+
+Junior (kneeling, lips parted, hands slightly shaking):
+"Yes… I want you… I need you."
+
+Boss (guiding him with her hands, voice husky):
+"Use your mouth… I want to feel you worship me."
+(Junior begins, Boss moans softly, arching back.)
+
+Boss (mounting him slowly, teasing):
+"Now… I’ll make sure you’re mine, even if only for tonight."
+(Intercourse begins, slow at first, teasing and sensual, escalating to harder thrusts.)
+
+Boss (panting, dominant):
+"Say my name… tell me you’re mine, right here, right now."
+
+Junior (moaning loudly, gasping):
+"I’m yours… only yours… god, yes!"
+
+Boss (gripping his waist, moving with intensity):
+"Don’t forget… this is our secret. But for now… just us… just this."
+
+(Both climax together, gasping, holding each other tightly.)
+
+Aftercare (Boss strokes his hair, whispers):
+"Tonight… just tonight… it’s our secret, but I’ll be thinking about you all week."  
+
+Junior (resting against her, still trembling):
+"Me too… I can’t wait for next time."`
+}
+      {
+  title: "🔥 Boss & Assistant: Seductive Office Desire",
+  script: `Setting: Office after hours. The room is quiet, lights dimmed. The air is charged with tension.  
+
+Boss (sitting at his desk, casually flipping through papers, eyes flicking to her):
+"You’ve been working late again… I can’t help but notice you. Always so focused… so perfect."
+
+Assistant (nervous, cheeks warm, playful smile):
+"I… I guess I just want everything to be done right. You noticed?"
+
+Boss (leaning back, smirking, voice low):
+"More than noticed. I’ve been thinking about you all week… the way you move, the way you dress… you have no idea how distracting you are."
+
+Assistant (biting her lip, looking down shyly):
+"Distracting? Me? I… I don’t know what to say."
+
+Boss (standing, walking slowly around her, casual but deliberate):
+"You don’t need to say anything. Just… stay still and let me appreciate you."
+(His gaze drifts down to her legs and feet, slow, deliberate.)
+
+Boss (kneeling slightly, teasing tone):
+"Do you know what I’ve been imagining? I can’t stop thinking about your feet… how soft they must feel."
+(Assistant’s breath catches, intrigued, slightly nervous.)
+
+Assistant (playful, teasing):
+"My feet? You… you’re serious?"
+
+Boss (smiling, leaning closer):
+"Very serious. I want to explore them… slowly. Let me taste them… please."
+(He gently lifts one foot onto his lap, brushing it lightly before starting to **lick and suck her toes**, teasing her arches.)
+
+Assistant (soft moan, leaning back into the desk):
+"Oh… oh god… that feels… incredible…"
+
+Boss (alternating pressure, whispering):
+"Shh… just feel it. Tremble for me… enjoy this. I want every reaction."
+(He continues, moving from toes to the arch, licking and sucking, savoring her responses.)
+
+Assistant (panting, a little trembling):
+"Yes… please… don’t stop…"
+
+Boss (standing, guiding her to lie down on the desk):
+"Now… I want the rest of you. Fully. I want to feel you… enjoy you as much as I enjoy this."
+(Assistant obeys, fully naked. Boss caresses her body, kissing and teasing her.)
+
+Boss (mounting carefully, whispering):
+"Every touch, every movement… I want us both to feel this… to enjoy it fully."
+
+Assistant (moaning, pressing against him):
+"Yes… I want you… please… I’m yours."
+
+(Intercourse begins slowly, building in intensity. Boss continues teasing, licking, kissing, alternating focus between her body and her feet if she wants, both fully enjoying themselves.)
+
+Boss (panting, dominant but gentle):
+"You’re incredible… I can’t get enough of you."
+
+Assistant (breathless, moaning):
+"I feel the same… I’m yours… only yours tonight."
+
+(Both climax together, moaning, gasping, bodies pressed tightly.)
+
+Aftercare (lying together, gentle touches, soft kisses):
+"You were perfect… I loved every second," Boss whispers.
+
+Assistant (smiling, resting on his chest):
+"Me too… this was unforgettable… I want more of this."`
+}
+        ];
+
+        const roleplayBtn = document.getElementById('roleplay-btn');
+        const roleplayText = document.getElementById('roleplay-text');
+        const roleplayDisplay = document.getElementById('roleplay-display');
+
+        function generateRoleplay() {
+            roleplayDisplay.style.opacity = '0';
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * rolePlays.length);
+                const selection = rolePlays[randomIndex];
+                
+                roleplayText.innerHTML = `<strong class='text-2xl block mb-4 text-teal-300'>${selection.title}</strong><pre>${selection.script}</pre>`;
+                
+                roleplayDisplay.style.opacity = '1';
+            }, 500);
+        }
+
+        roleplayBtn.addEventListener('click', generateRoleplay);
+    </script>
+
+</body>
+</html>
+
