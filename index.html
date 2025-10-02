@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple's Connect - A Game for Partners</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Simple transition for screens */
+        .screen {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+        /* Card flip animation */
+        /* REMOVED - All flipping CSS is gone */
+        .card-content {
+            transition: opacity 0.4s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-100 via-purple-100 to-rose-200 flex items-center justify-center min-h-screen p-4 overflow-hidden">
+
+    <div id="app-container" class="w-full max-w-md relative" style="height: 600px;">
+
+        <!-- Screen 1: Mode Selection -->
+        <div id="mode-screen" class="screen flex flex-col items-center justify-center text-center p-6">
+            <h1 class="text-5xl font-bold text-rose-800">Couple's Connect</h1>
+            <p class="text-gray-600 mt-4 mb-10">A fun and flirty game to bring you closer together.</p>
+            <div class="w-full">
+                <button data-mode="in-person" class="mode-btn w-full bg-rose-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-rose-600 focus:outline-none focus:ring-4 focus:ring-rose-300 transform hover:-translate-y-1 transition-all duration-300 mb-4">
+                    We're Together
+                </button>
+                <button data-mode="long-distance" class="mode-btn w-full bg-purple-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-300 transform hover:-translate-y-1 transition-all duration-300">
+                    We're Long Distance
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen 2: Game Screen -->
+        <div id="game-screen" class="screen hidden flex flex-col items-center justify-between p-4">
+            <div class="w-full flex justify-between items-center">
+                <button id="back-btn" class="text-rose-500 font-semibold hover:text-rose-700 transition-colors">&larr; Change Mode</button>
+                <a href="room-scene.html" class="text-white bg-red-600 hover:bg-red-700 font-semibold py-2 px-4 rounded-lg shadow-md transition-all">
+                    Room Secrets
+                </a>
+                <h2 id="turn-indicator" class="text-2xl font-bold text-gray-700">Player 1's Turn</h2>
+            </div>
+
+            <!-- The Card -->
+            <div id="card" class="w-full max-w-xs h-80 bg-white rounded-2xl shadow-2xl p-6 flex flex-col items-center justify-center text-center">
+                <!-- This container will hold either the choices or the result -->
+                <div id="card-content" class="card-content w-full">
+                    <!-- This part is shown initially -->
+                    <div id="choice-view">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-6">Choose One</h3>
+                        <button id="truth-btn" class="w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transform hover:scale-105 transition-all mb-4">Truth</button>
+                        <button id="dare-btn" class="w-full bg-amber-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-amber-600 transform hover:scale-105 transition-all">Dare</button>
+                    </div>
+                    <!-- This part is shown after a choice is made -->
+                    <div id="result-view" class="hidden">
+                        <p id="card-text" class="text-2xl font-medium text-purple-900"></p>
+                    </div>
+                </div>
+            </div>
+
+            <button id="next-turn-btn" class="w-full max-w-xs bg-gray-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-gray-900 transform hover:-translate-y-1 transition-all duration-300 opacity-0 pointer-events-none">
+                Next Turn
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        const modeScreen = document.getElementById('mode-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const turnIndicator = document.getElementById('turn-indicator');
+        const cardContent = document.getElementById('card-content');
+        const choiceView = document.getElementById('choice-view');
+        const resultView = document.getElementById('result-view');
+        const cardText = document.getElementById('card-text');
+        const nextTurnBtn = document.getElementById('next-turn-btn');
+
+        // --- Game State ---
+        let state = {
+            mode: null, // 'in-person' or 'long-distance'
+            currentPlayer: 1,
+            usedTruths: [],
+            usedDares: [],
+        };
+
+        // --- Data ---
+        const cards = {
+            truths: [
+                // Original
+                { text: "What's a secret you've never told anyone before?", modes: ['in-person', 'long-distance'] },
+                { text: "When did you first realize you were in love with me?", modes: ['in-person', 'long-distance'] },
+                { text: "What is your absolute favorite memory of us?", modes: ['in-person', 'long-distance'] },
+                { text: "If you could change one thing about our relationship, what would it be?", modes: ['in-person', 'long-distance'] },
+                { text: "Describe a fantasy you've had about me.", modes: ['in-person', 'long-distance'] },
+                { text: "What's one thing you're afraid to ask me, but really want to know?", modes: ['in-person', 'long-distance'] },
+                // New additions
+                { text: "What was your first impression of me?", modes: ['in-person', 'long-distance'] },
+                { text: "What's something you've done that you think I'd be proud of?", modes: ['in-person', 'long-distance'] },
+                { text: "What's a 'green flag' you saw in me early on?", modes: ['in-person', 'long-distance'] },
+                { text: "What's your biggest 'what if' in life?", modes: ['in-person', 'long-distance'] },
+                { text: "Is there a song that makes you think of me every time you hear it?", modes: ['in-person', 'long-distance'] },
+                { text: "What's the most thoughtful gift you've ever received?", modes: ['in-person', 'long-distance'] },
+                { text: "What's a physical feature of mine that you love, but haven't told me about?", modes: ['in-person', 'long-distance'] },
+                { text: "What's your guilty pleasure TV show or movie?", modes: ['in-person', 'long-distance'] },
+                { text: "Have you ever had a dream about us? Describe it.", modes: ['in-person', 'long-distance'] },
+                { text: "What's the most embarrassing thing you've ever done to get someone's attention?", modes: ['in-person', 'long-distance'] },
+                { text: "What's a habit of mine that you find secretly endearing?", modes: ['in-person', 'long-distance'] },
+                { text: "What's your favorite non-physical quality about me?", modes: ['in-person', 'long-distance'] },
+                { text: "What's the biggest lie you've ever told?", modes: ['in-person', 'long-distance'] },
+                { text: "If we could go anywhere in the world for a week, where would you take us?", modes: ['in-person', 'long-distance'] },
+                { text: "What's something you wish we did more of together?", modes: ['in-person', 'long-distance'] },
+                { text: "What gives you 'the ick'?", modes: ['in-person', 'long-distance'] },
+                { text: "What's something you're insecure about?", modes: ['in-person', 'long-distance'] },
+                { text: "What's an assumption people make about you that's totally wrong?", modes: ['in-person', 'long-distance'] },
+                { text: "Who was your first celebrity crush?", modes: ['in-person', 'long-distance'] },
+                { text: "Have you ever practiced kissing in a mirror?", modes: ['in-person', 'long-distance'] },
+                { text: "What's the last thing you Googled?", modes: ['in-person', 'long-distance'] },
+                { text: "What's one thing you've been too shy to ask me to do in the bedroom?", modes: ['in-person', 'long-distance'] },
+                { text: "What's the most rebellious thing you did as a teenager?", modes: ['in-person', 'long-distance'] },
+                { text: "What's the weirdest food combination you secretly enjoy?", modes: ['in-person', 'long-distance'] },
+                { text: "What's a secret talent you have?", modes: ['in-person', 'long-distance'] },
+                { text: "What's the silliest thing that's ever made you cry?", modes: ['in-person', 'long-distance'] },
+                { text: "How do you really feel about my friends/family?", modes: ['in-person', 'long-distance'] },
+                { text: "What is your biggest turn-on?", modes: ['in-person', 'long-distance'] },
+                { text: "What is your biggest turn-off?", modes: ['in-person', 'long-distance'] },
+                { text: "Have you ever faked an orgasm?", modes: ['in-person', 'long-distance'] },
+                { text: "Where is the craziest place you've ever 'done it'?", modes: ['in-person', 'long-distance'] },
+                { text: "What's your favorite position?", modes: ['in-person', 'long-distance'] },
+                { text: "What's a non-sexual thing that turns you on?", modes: ['in-person', 'long-distance'] },
+                { text: "Have you ever stalked an ex on social media?", modes: ['in-person', 'long-distance'] },
+                { text: "What's a weird dream you've had recently?", modes: ['in-person', 'long-distance'] },
+                { text: "What do you think about when you're by yourself?", modes: ['in-person', 'long-distance'] },
+                { text: "If you had a 'hall pass,' who would you use it on?", modes: ['in-person', 'long-distance'] },
+                { text: "What's the worst physical pain you've ever been in?", modes: ['in-person', 'long-distance'] },
+                { text: "What's one thing you would change about your body if you could?", modes: ['in-person', 'long-distance'] },
+                { text: "What's something you've bought that you regret?", modes: ['in-person', 'long-distance'] },
+                { text: "What's something you think we should save up for?", modes: ['in-person', 'long-distance'] },
+                { text: "What is your love language?", modes: ['in-person', 'long-distance'] },
+                { text: "When do you feel most loved by me?", modes: ['in-person', 'long-distance'] },
+                { text: "What's your biggest fear about our future?", modes: ['in-person', 'long-distance'] },
+                { text: "Is there anything you feel you can't talk to me about?", modes: ['in-person', 'long-distance'] },
+            ],
+            dares: [
+                // For both modes
+                { text: "Send me the last selfie you took.", modes: ['in-person', 'long-distance'] },
+                { text: "Serenade me with a romantic song (enthusiasm is more important than talent!).", modes: ['in-person', 'long-distance'] },
+                { text: "Do your best impression of me.", modes: ['in-person', 'long-distance'] },
+                { text: "Write a short, silly poem about me and read it out loud.", modes: ['in-person', 'long-distance'] },
+                { text: "Show me your most-used emoji right now.", modes: ['in-person', 'long-distance'] },
+                { text: "Talk in a funny accent for the next three turns.", modes: ['in-person', 'long-distance'] },
+                { text: "Use your worst pick-up line on me.", modes: ['in-person', 'long-distance'] },
+                { text: "Do a dramatic reading of the last text message you sent.", modes: ['in-person', 'long-distance'] },
+                { text: "Tell me a joke. If I don't laugh, you have to do another dare.", modes: ['in-person', 'long-distance'] },
+                { text: "Try to make me laugh in the next 60 seconds.", modes: ['in-person', 'long-distance'] },
+                { text: "Reveal your screen time report for last week.", modes: ['in-person', 'long-distance'] },
+                { text: "Narrate what I'm doing right now like David Attenborough.", modes: ['in-person', 'long-distance'] },
+                { text: "Describe your perfect date night in under 60 seconds.", modes: ['in-person', 'long-distance'] },
+                { text: "Do 10 pushups or 20 jumping jacks.", modes: ['in-person', 'long-distance'] },
+                { text: "Spell my full name backwards.", modes: ['in-person', 'long-distance'] },
+                { text: "Make a silly face and hold it until it's your turn again.", modes: ['in-person', 'long-distance'] },
+
+                // In-person only
+                { text: "Give me a passionate kiss for at least 20 seconds.", modes: ['in-person'] },
+                { text: "Give me a five-minute neck and shoulder massage.", modes: ['in-person'] },
+                { text: "Slow dance with me for one full song (no music necessary).", modes: ['in-person'] },
+                { text: "Let me lead you around the room blindfolded for one minute.", modes: ['in-person'] },
+                { text: "Whisper something naughty in my ear.", modes: ['in-person'] },
+                { text: "Let me draw a temporary tattoo on you with a pen.", modes: ['in-person'] },
+                { text: "Take off one item of my clothing using only your teeth.", modes: ['in-person'] },
+                { text: "Let me style your hair in a ridiculous way.", modes: ['in-person'] },
+                { text: "Kiss me like it's our first time again.", modes: ['in-person'] },
+                { text: "Sit on my lap for the rest of the game.", modes: ['in-person'] },
+                { text: "Feed me a snack in the most seductive way possible.", modes: ['in-person'] },
+                { text: "Let me tickle you for 30 seconds without fighting back.", modes: ['in-person'] },
+                { text: "Attempt to juggle two or three items from the room.", modes: ['in-person'] },
+                { text: "Let me post a silly (but approved) picture of us online.", modes: ['in-person'] },
+                { text: "Recreate our first kiss.", modes: ['in-person'] },
+                { text: "Swap one item of clothing with me.", modes: ['in-person'] },
+                { text: "Give me a piggyback ride across the room.", modes: ['in-person'] },
+                { text: "Do a striptease to a song of my choice.", modes: ['in-person'] },
+                { text: "Let me go through your phone for one minute.", modes: ['in-person'] },
+                { text: "Kiss my favorite part of your own body.", modes: ['in-person'] },
+                { text: "Let me balance a spoon on your nose for one minute.", modes: ['in-person'] },
+                { text: "Pick me up and carry me to the couch.", modes: ['in-person'] },
+                { text: "Bite my lip gently.", modes: ['in-person'] },
+                { text: "Try to lick your elbow.", modes: ['in-person'] },
+
+                // Long-distance only
+                { text: "Describe, in detail, what you would do if I was with you right now.", modes: ['long-distance'] },
+                { text: "Show me the view from your nearest window and describe it like a poet.", modes: ['long-distance'] },
+                { text: "Order my favorite snack or coffee to be delivered to me.", modes: ['long-distance'] },
+                { text: "Take a screenshot of your phone's home screen and send it to me.", modes: ['long-distance'] },
+                { text: "Change your profile picture to a photo I choose for the next hour.", modes: ['long-distance'] },
+                { text: "Send me a 15-second video of you doing a silly dance.", modes: ['long-distance'] },
+                { text: "Call me and leave a really romantic voicemail.", modes: ['long-distance'] },
+                { text: "Send me a picture of the inside of your fridge.", modes: ['long-distance'] },
+                { text: "Put on your favorite outfit and send me a picture.", modes: ['long-distance'] },
+                { text: "Read the last page of the book you're reading in a dramatic voice.", modes: ['long-distance'] },
+                { text: "Send me an audio message of you fake-crying.", modes: ['long-distance'] },
+                { text: "Show me your most prized possession (that's nearby).", modes: ['long-distance'] },
+                { text: "Send me a link to a song you think describes our relationship.", modes: ['long-distance'] },
+                { text: "Draw a portrait of me in 60 seconds and show me.", modes: ['long-distance'] },
+                { text: "Send a suggestive text to me as if I were a stranger you just met.", modes: ['long-distance'] },
+                { text: "Take a picture of yourself striking a superhero pose.", modes: ['long-distance'] },
+                { text: "Find the weirdest thing in your room and explain its story.", modes: ['long-distance'] },
+                { text: "Start your next sentence to me with 'My dearest love...'", modes: ['long-distance'] },
+                { text: "Blow a kiss to the camera and catch it.", modes: ['long-distance'] },
+                { text: "Send me a photo of your feet.", modes: ['long-distance'] },
+                { text: "Show me what you're wearing right now.", modes: ['long-distance'] },
+                { text: "Update your social media status with a cheesy line I give you.", modes: ['long-distance'] },
+            ]
+        };
+
+        // --- Functions ---
+        
+        function switchScreen(hide, show) {
+            hide.classList.add('hidden');
+            setTimeout(() => show.classList.remove('hidden'), 50);
+        }
+
+        function resetGame() {
+            state.currentPlayer = 1;
+            state.usedTruths = [];
+            state.usedDares = [];
+            turnIndicator.textContent = "Player 1's Turn";
+            // Reset to show choices
+            choiceView.classList.remove('hidden');
+            resultView.classList.add('hidden');
+            cardContent.style.opacity = '1';
+            nextTurnBtn.style.opacity = '0';
+            nextTurnBtn.style.pointerEvents = 'none';
+        }
+
+        function getRandomCard(type) {
+            const availableCards = cards[type]
+                .filter(card => card.modes.includes(state.mode))
+                .filter(card => !(state[type === 'truths' ? 'usedTruths' : 'usedDares'].includes(card.text)));
+            
+            if (availableCards.length === 0) {
+                // Reset used cards if all have been seen
+                state[type === 'truths' ? 'usedTruths' : 'usedDares'] = [];
+                return getRandomCard(type); // Try again
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableCards.length);
+            const card = availableCards[randomIndex];
+            state[type === 'truths' ? 'usedTruths' : 'usedDares'].push(card.text);
+            return card;
+        }
+
+        function handleCardChoice(type) {
+            const card = getRandomCard(type);
+            
+            // 1. Fade out current content
+            cardContent.style.opacity = '0';
+
+            setTimeout(() => {
+                // 2. After fade out, switch content
+                choiceView.classList.add('hidden');
+                resultView.classList.remove('hidden');
+                cardText.textContent = card.text;
+
+                // 3. Fade in new content
+                cardContent.style.opacity = '1';
+                
+                // 4. Show the next turn button
+                nextTurnBtn.style.opacity = '1';
+                nextTurnBtn.style.pointerEvents = 'auto';
+            }, 400); // This duration should match the CSS transition
+        }
+
+        // --- Event Listeners ---
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                state.mode = e.target.dataset.mode;
+                resetGame();
+                switchScreen(modeScreen, gameScreen);
+            });
+        });
+
+        document.getElementById('back-btn').addEventListener('click', () => {
+            switchScreen(gameScreen, modeScreen);
+        });
+
+        document.getElementById('truth-btn').addEventListener('click', () => handleCardChoice('truths'));
+        document.getElementById('dare-btn').addEventListener('click', () => handleCardChoice('dares'));
+
+        nextTurnBtn.addEventListener('click', () => {
+            state.currentPlayer = state.currentPlayer === 1 ? 2 : 1;
+            turnIndicator.textContent = `Player ${state.currentPlayer}'s Turn`;
+            
+            // Fade out the result
+            cardContent.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Switch back to the choice view
+                resultView.classList.add('hidden');
+                choiceView.classList.remove('hidden');
+                
+                // Fade it back in
+                cardContent.style.opacity = '1';
+            }, 400);
+
+            nextTurnBtn.style.opacity = '0';
+            nextTurnBtn.style.pointerEvents = 'none';
+        });
+
+    </script>
+</body>
+</html>
